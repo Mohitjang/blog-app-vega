@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { deleteBlog, updateBlog } from "../../../backend/src/controllers/blog.controller";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -52,4 +53,42 @@ export const useBlogStore = create((set) => ({
       set({ error: error.message, isLoading: false });
     }
   },
+  updateBlog: async (id, { title, description, blogImage }) => {
+    set({ isLoading: true, error: null });
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      if (blogImage) {
+        formData.append("blogImage", blogImage);
+      }
+
+      const response = await axios.put(`${API_URL}/blog/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      set((state) => ({
+        blogs: state.blogs.map((blog) =>
+          blog._id === id ? { ...blog, ...response.data } : blog
+        ),
+        blog: response.data,
+        isLoading: false,
+      }));
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
+
+  deleteBlog: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      await axios.delete(`${API_URL}/blog/${id}`);
+      set((state) => ({
+        blogs: state.blogs.filter((blog) => blog._id !== id),
+        isLoading: false,
+      }));
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  }
 }));

@@ -1,5 +1,4 @@
 import Blog from "../models/Blog.js";
-import cloudinary from "../lib/cloudinary.js"; // Import Cloudinary configuration
 
 export const createBlog = async (req, res) => {
   const { title, description } = req.body;
@@ -50,9 +49,9 @@ export const updateBlog = async (req, res) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    if (blog.author_id.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
+    // if (blog.author_id.toString() !== req.user.id) {
+    //   return res.status(403).json({ message: "Not authorized" });
+    // }
 
     if (blogImagePath) {
       // i want to delete the previous image from cloudinary
@@ -79,20 +78,22 @@ export const updateBlog = async (req, res) => {
 
 // delete (Delete Blog)
 export const deleteBlog = async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-    if (!blog) {
-      return res.status(404).json({ message: "Blog not found" });
+  if (blogImagePath && blog.blogImage) {
+    try {
+      const imageUrl = blog.blogImage;
+      const urlParts = imageUrl.split("/");
+      const fileNameWithExt = urlParts.pop();
+      const folder = urlParts.pop();
+      const fileName = fileNameWithExt.split(".")[0];
+      const publicId = `${folder}/${fileName}`;
+  
+      await cloudinary.uploader.destroy(publicId);
+    } catch (cloudErr) {
+      console.error("Cloudinary deletion error:", cloudErr);
+      return res.status(500).json({ message: "Image deletion failed" });
     }
-    if (blog.author_id.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
-    await blog.deleteOne();
-    res.status(200).json({ message: "Blog deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
   }
+  
 };
 // Display Button for Each Blog:
 export const getBlogById = async (req, res) => {

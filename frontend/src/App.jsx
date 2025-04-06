@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage";
 import BlogListPage from "./pages/BlogPages/BlogListPage";
 import BlogDetailPage from "./pages/BlogPages/BlogDetailPage";
 import CreateBlogPage from "./pages/BlogPages/CreateBlogPage";
+import UpdateBlogPage from "./pages/BlogPages/UpdateBlogPage";
 
 function App() {
   return (
@@ -21,9 +22,12 @@ function App() {
         {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
 
         {/* Blog Routes */}
-        <Route path="/" element={<BlogListPage />} />
-        <Route path="/blogs/:id" element={<BlogDetailPage />} />
+        <Route path="/" element={<BlogListPage />} /> 
         <Route path="/create" element={<CreateBlogPage />} />
+        <Route path="/blogs/:id" element={<BlogDetailPage />} />
+        <Route path="/blogs/:id/edit" element={<UpdateBlogPage />} />
+
+      
       </Routes>
     </Router>
   );
