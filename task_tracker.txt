@@ -1,0 +1,32 @@
+BACKEND
+======  
+ DONE
+======
+
+1. signup done
+2. login done
+3. create blog done
+4. get all blogs
+5. update blog by id
+6. delete blog by id
+7. get single blog by id
+8. Upload image during signup
+9. upload image when blog is created 
+10 upload image when blog is updated 
+11. delete previous blog image when user upload new blog image
+
+
+FRONTEND
+
+======
+ DONE
+======
+1. signup page
+2. login page
+3. Dashboard page
+
+
+
+=========
+ PENDING
+=========
