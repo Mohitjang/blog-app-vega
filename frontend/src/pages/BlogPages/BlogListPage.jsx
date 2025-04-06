@@ -24,7 +24,7 @@ const BlogListPage = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 bg-gray-300">
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">All Blogs</h1>
@@ -46,7 +46,7 @@ const BlogListPage = () => {
               <img
                 src={blog.blogImage}
                 alt={blog.title}
-                className="w-60 h-40 max-w-md h-48 object-cover rounded"
+                className="w-full object-cover rounded"
               />
               <div className="p-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
